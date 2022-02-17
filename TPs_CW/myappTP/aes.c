@@ -102,6 +102,7 @@ void StateToMessage(uint8_t message [DATA_SIZE],uint8_t state [STATE_ROW_SIZE][S
 
 void MCMatrixColumnProduct(uint8_t colonne [STATE_COL_SIZE])
 {
+  
 }
 
 uint8_t gmul(uint8_t a, uint8_t b);
