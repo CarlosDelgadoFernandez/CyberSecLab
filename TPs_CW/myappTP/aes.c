@@ -16,10 +16,25 @@ extern uint8_t targeted_round;
 
 void AESEncrypt(uint8_t ciphertext[DATA_SIZE], uint8_t plaintext[DATA_SIZE] , uint8_t key[DATA_SIZE])
 {
+  MessageToState(state[STATE_ROW_SIZE][STATE_COL_SIZE], message[DATA_SIZE]);
+  AddRoundKey(state[DATA_SIZE], key[DATA_SIZE]);
+  uint8_t i,j;
+  for(i=1; i < 10; ++i)
+  {
+    SubBytes(state[STATE_ROW_SIZE][STATE_COL_SIZE]);
+    ShiftRows(state[STATE_ROW_SIZE][STATE_COL_SIZE]);
+    MixColumns(state[STATE_ROW_SIZE][STATE_COL_SIZE]);
+    AddRoundKey(state[STATE_ROW_SIZE][STATE_COL_SIZE]);
+  }
+
+  SubBytes(state[STATE_ROW_SIZE][STATE_COL_SIZE],key[DATA_SIZE]);
+  ShiftRows(state[STATE_ROW_SIZE][STATE_COL_SIZE]);
+  AddRoundKey(state[STATE_COL_SIZE][STATE_COL_SIZE]);
+  StateToMessage(message[DATA_SIZE], uint8_t ciphertext[DATA_SIZE], uint8_t plaintext[DATA_SIZE])
 }
 
 
-
+//complete
 void AddRoundKey( uint8_t state [STATE_ROW_SIZE][STATE_COL_SIZE], uint8_t roundkey [STATE_ROW_SIZE][STATE_COL_SIZE])
 {
 	uint8_t i,j;
@@ -34,14 +49,11 @@ void AddRoundKey( uint8_t state [STATE_ROW_SIZE][STATE_COL_SIZE], uint8_t roundk
 }
 
 
-
-
-
-
+//have to find the way to get the value of each value 
 void SubBytes(uint8_t state[STATE_ROW_SIZE][STATE_COL_SIZE])
 {
 }
-
+//complete
 void ShiftRows(uint8_t state[STATE_ROW_SIZE][STATE_COL_SIZE])
 {
 	uint8_t temp;
@@ -88,14 +100,16 @@ void OtherColumnsFill(uint8_t roundkeys [][STATE_ROW_SIZE][STATE_COL_SIZE], int 
 {
 }
 
+//
 void GetRoundKey(uint8_t roundkey [STATE_ROW_SIZE][STATE_COL_SIZE], uint8_t roundkeys [][STATE_ROW_SIZE][STATE_COL_SIZE], int round)
 {
 }
 
+//At the beggining gets a plein text message and translates into the state variable
 void MessageToState(uint8_t state [STATE_ROW_SIZE][STATE_COL_SIZE], uint8_t message [DATA_SIZE])
 {
 }
-
+//gets the state variable and turns it into the cyphered message
 void StateToMessage(uint8_t message [DATA_SIZE],uint8_t state [STATE_ROW_SIZE][STATE_COL_SIZE])
 {
 }
