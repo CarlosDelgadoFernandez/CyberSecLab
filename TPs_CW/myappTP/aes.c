@@ -52,6 +52,14 @@ void AddRoundKey( uint8_t state [STATE_ROW_SIZE][STATE_COL_SIZE], uint8_t roundk
 //have to find the way to get the value of each value 
 void SubBytes(uint8_t state[STATE_ROW_SIZE][STATE_COL_SIZE])
 {
+  uint8_t i, j;
+  for (i = 0; i < 4; ++i)
+  {
+    for (j = 0; j < 4; ++j)
+    {
+      state[j][i] = SBoxValue(state[j][i]);
+    }
+  }
 }
 //complete
 void ShiftRows(uint8_t state[STATE_ROW_SIZE][STATE_COL_SIZE])
@@ -84,6 +92,17 @@ void ShiftRows(uint8_t state[STATE_ROW_SIZE][STATE_COL_SIZE])
 
 void MixColumns(uint8_t state [STATE_ROW_SIZE][STATE_COL_SIZE])
 {
+  uint8_t i;
+  uint8_t Tmp, Tm, t;
+  for (i = 0; i < 4; ++i)
+  {  
+    t   = state[i][0];
+    Tmp = (*state)[i][0] ^ (*state)[i][1] ^ (*state)[i][2] ^ (*state)[i][3] ;
+    Tm  = (*state)[i][0] ^ (*state)[i][1] ; (*state)[i][0] ^= Tm ^ Tmp ;
+    Tm  = (*state)[i][1] ^ (*state)[i][2] ; (*state)[i][1] ^= Tm ^ Tmp ;
+    Tm  = (*state)[i][2] ^ (*state)[i][3] ; (*state)[i][2] ^= Tm ^ Tmp ;
+    Tm  = (*state)[i][3] ^ t ;              (*state)[i][3] ^= Tm ^ Tmp ;
+  }
 }
 
 void KeyGen(uint8_t roundkeys [][STATE_ROW_SIZE][STATE_COL_SIZE], uint8_t master_key [STATE_ROW_SIZE][STATE_COL_SIZE])
